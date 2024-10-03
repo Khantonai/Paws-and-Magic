@@ -1,5 +1,4 @@
 import { View, StyleSheet, Image, Text } from "react-native";
-import { LinearGradient } from 'expo-linear-gradient';
 
 
 interface CardProps {
@@ -12,7 +11,7 @@ interface CardProps {
 
 function Card( {image, title, mana, strength, hp}: CardProps ) {
     return (
-        <LinearGradient colors={["#A5D6A7", "#4CAF50"]}
+        <View
         style={styles.cardContainer}>
             <View style={styles.mana}>
                 <Text style={styles.dataText}>{mana}</Text>
@@ -27,7 +26,7 @@ function Card( {image, title, mana, strength, hp}: CardProps ) {
                     <Text style={styles.dataText}>{hp}</Text>
                  </View>
             </View>
-        </LinearGradient>
+        </View>
     )
 }
 
@@ -42,7 +41,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     image: {
-        height: '50%',
+        height: '60%',
+        width: '100%',
         objectFit: 'contain',
     },
     dataContainer: {
