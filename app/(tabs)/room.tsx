@@ -30,17 +30,25 @@ const RoomSelectionPage: React.FC = () => {
   }, []);
 
   const handleCreateRoom = (name: string, isPasswordRequired: boolean, password?: string) => {
+    // Trouver l'ID maximum
+    const maxId = rooms.length > 0 
+      ? Math.max(...rooms.map(room => parseInt(room.id, 10))) 
+      : 0;
+    
+    // Créer la nouvelle salle avec un ID incrémenté
     const newRoom: Room = {
-      id: Math.random().toString(),
+      id: (maxId + 1).toString(), // Convertir l'ID en chaîne de caractères
       name,
       players: 0,
       maxPlayers: 2,
       passwordRequired: isPasswordRequired,
     };
-
+  
+    // Ajouter la nouvelle salle à la liste des salles existantes
     setRooms([...rooms, newRoom]);
     setModalVisible(false);
   };
+  
 
   const handleJoinRoom = (roomId: string) => {
     alert(`Rejoindre la salle`+ `ID de la salle : ${roomId}`);
