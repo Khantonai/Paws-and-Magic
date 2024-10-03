@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Modal, StyleSheet } from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
 
 interface CreateRoomModalProps {
   visible: boolean;
@@ -10,13 +9,23 @@ interface CreateRoomModalProps {
 
 const CreateRoomModal: React.FC<CreateRoomModalProps> = ({ visible, onClose, onCreate }) => {
   const [newRoomName, setNewRoomName] = useState('');
-  const [isPasswordRequired, setIsPasswordRequired] = useState(false);
   const [password, setPassword] = useState('');
 
   const handleCreateRoom = () => {
+    // Vérification si le nom de la salle est vide
+    if (newRoomName.trim() === '') {
+      alert("Erreur "+ "Le nom de la salle est requis.");
+      return;
+    }
+
+    // Définir si un mot de passe est requis ou non
+    const isPasswordRequired = password.trim() !== '';
+
+    // Appeler la fonction de création de salle avec les valeurs appropriées
     onCreate(newRoomName, isPasswordRequired, isPasswordRequired ? password : undefined);
+
+    // Réinitialiser les champs après la création
     setNewRoomName('');
-    setIsPasswordRequired(false);
     setPassword('');
   };
 
@@ -30,22 +39,13 @@ const CreateRoomModal: React.FC<CreateRoomModalProps> = ({ visible, onClose, onC
             value={newRoomName}
             onChangeText={setNewRoomName}
           />
-          {/* <View style={styles.checkboxContainer}>
-            <CheckBox
-              value={isPasswordRequired}
-              onValueChange={setIsPasswordRequired}
-            />
-            <Text>Mot de passe requis</Text>
-          </View> */}
-          {(
-            <TextInput
-              style={styles.input}
-              placeholder="Mot de passe"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-            />
-          )}
+          <TextInput
+            style={styles.input}
+            placeholder="Mot de passe (facultatif)"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
           <Button title="Créer" onPress={handleCreateRoom} />
           <Button title="Annuler" onPress={onClose} />
         </View>
@@ -73,11 +73,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     paddingLeft: 10,
-  },
-  checkboxContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
   },
 });
 
