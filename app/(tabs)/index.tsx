@@ -1,8 +1,11 @@
-import { View, Image, StyleSheet, Platform } from 'react-native';
-import Card from '@/components/molecules/Card';
 
+import { Image, StyleSheet, Platform,View,Text } from 'react-native';
+import { View, Image, StyleSheet, Platform } from 'react-native';
 
 export default function HomeScreen() {
+
+
+
   return (
     <View>
     </View>
