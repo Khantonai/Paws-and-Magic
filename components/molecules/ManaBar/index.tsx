@@ -47,20 +47,28 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderTopRightRadius: 1000,
     borderBottomRightRadius: 1000,
-    marginTop: 50,
+    borderTopEndRadius: 1000,
+    borderBottomEndRadius: 1000,
+
+    overflow: "hidden",
   },
   textContainer: {
     backgroundColor: "black",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
     borderTopLeftRadius: 1000,
     borderBottomLeftRadius: 1000,
-    marginLeft: 50,
-    marginTop: 50
+    borderTopStartRadius: 1000,
+    borderBottomStartRadius: 1000,
+    overflow: "hidden",
+    height: 47,
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 1,
+    flex: 1,
   },
   title: {
     fontWeight: "bold",
     fontSize: 20,
-    color: "white"
+    color: "white",
+    zIndex: 2,
   }
 })
