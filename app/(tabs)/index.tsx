@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Image, StyleSheet } from 'react-native';
+import { View, TextInput, Button, Image, StyleSheet, Alert } from 'react-native';
+import { router } from 'expo-router';
+
+
 
 const HomeScreen = () => {
   const [pseudo, setPseudo] = useState('');
@@ -9,7 +12,7 @@ const HomeScreen = () => {
         alert('Erreur'+ 'Veuillez entrer un pseudo.');
         return;
       }
-      alert( `Votre pseudo est : ${pseudo}`);
+      router.push('/room');
   };
 
   return (
