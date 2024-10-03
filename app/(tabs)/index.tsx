@@ -1,13 +1,13 @@
+
 import { Image, StyleSheet, Platform,View,Text } from 'react-native';
-import ManaPoint from '@/components/atoms/ManaPoint'
-import ManaBar from '@/components/molecules/ManaBar';
+import { View, Image, StyleSheet, Platform } from 'react-native';
+
 export default function HomeScreen() {
+
 
 
   return (
     <View>
-      <ManaBar count ={10} active ={6}/>
-      <Text></Text>
     </View>
   );
 }
