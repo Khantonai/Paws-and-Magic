@@ -9,11 +9,9 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-      }}>
-      {/* <Stack.Screen name="index" options={{ title: 'Home' }} /> */}
+    <Stack>
+      <Stack.Screen name="index" options={{ title: 'Bienvenue' }} />
+      <Stack.Screen name="room" options={{ title: 'Parties' }} />
     </Stack>
   );
 }
