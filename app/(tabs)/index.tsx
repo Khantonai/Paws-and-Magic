@@ -1,31 +1,57 @@
+import React, { useState } from 'react';
+import { View, TextInput, Button, Image, StyleSheet } from 'react-native';
 
-import { Image, StyleSheet, Platform,View,Text } from 'react-native';
+const HomeScreen = () => {
+  const [pseudo, setPseudo] = useState('');
 
-export default function HomeScreen() {
-
-
+  const handleSubmit = () => {
+    if (pseudo.trim() === '') {
+        alert('Erreur'+ 'Veuillez entrer un pseudo.');
+        return;
+      }
+      alert( `Votre pseudo est : ${pseudo}`);
+  };
 
   return (
-    <View>
+    <View style={styles.container}>
+        <View style={styles.imageContainer}>
+            <Image source={require('@/assets/images/pawsMagic.png')} style={styles.logo} resizeMode="contain" />
+        </View>
+      <TextInput
+        style={styles.input}
+        placeholder="Entrez votre pseudo"
+        value={pseudo}
+        onChangeText={setPseudo}
+      />
+      <Button title="Valider" onPress={handleSubmit} />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
+  container: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-    gap: 8,
+    padding: 16,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  logo: {
+    width: "100%",
+    height: "100%",
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  imageContainer: {
+    width: 700, 
+    height: 200, 
+    marginBottom: 20,
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 20,
+    paddingHorizontal: 10,
+    width: '80%',
   },
 });
+
+export default HomeScreen;
