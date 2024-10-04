@@ -1,4 +1,5 @@
-import { View, StyleSheet, Image, Text, useWindowDimensions } from "react-native";
+import { View, StyleSheet, Image, Text, useWindowDimensions, Pressable } from "react-native";
+
 
 
 
@@ -17,10 +18,10 @@ function Card( {image, title, mana, strength, hp, onBoard,onPress, style}: CardP
     const dimensions = useWindowDimensions();
 
     return (
-        <View
+        <Pressable
         style={[styles(dimensions).cardContainer, {width: dimensions?.width ? dimensions.width / (onBoard ? 3 : 6) : 100, 
             maxWidth: onBoard ? 125 : 100,}, style]}
-        onTouchEnd={onPress}
+        onPress={onPress}
             >
             <View style={onBoard ? {height:20} : styles(dimensions).mana}>
                 {
@@ -37,7 +38,7 @@ function Card( {image, title, mana, strength, hp, onBoard,onPress, style}: CardP
                     <Text style={styles(dimensions).dataText}>{hp}</Text>
                  </View>
             </View>
-        </View>
+        </Pressable>
     )
 }
 

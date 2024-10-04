@@ -52,8 +52,8 @@ const RoomSelectionPage: React.FC = () => {
   
 
   const handleJoinRoom = (roomId: string) => {
-    alert(`Rejoindre la salle`+ `ID de la salle : ${roomId}`);
-    router.push('/board');
+    // alert(`Rejoindre la salle`+ `ID de la salle : ${roomId}`);
+    router.push(`/board/${roomId}`);
   };
 
   return (
