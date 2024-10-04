@@ -1,6 +1,6 @@
 import ManaPoint from '@/components/atoms/ManaPoint';
 import { useState } from "react";
-import { View,StyleSheet, Text } from "react-native";
+import { View,StyleSheet, Text, Platform } from "react-native";
 interface manaBarProps {
   count: number;
   active: number;
@@ -33,15 +33,15 @@ const styles = StyleSheet.create({
   bar: {
     display: "flex",
     flexDirection: "row",
-    maxWidth: 300,
     height: 30,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "space-evenly",
   },
   container: {
     display: "flex",
     flexDirection: "row",
     gap: 10,
+    width: 280,
     backgroundColor: "#DEB887",
     paddingVertical: 16,
     paddingHorizontal: 20,
@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 1000,
     borderTopEndRadius: 1000,
     borderBottomEndRadius: 1000,
-
     overflow: "hidden",
   },
   textContainer: {
@@ -59,11 +58,12 @@ const styles = StyleSheet.create({
     borderTopStartRadius: 1000,
     borderBottomStartRadius: 1000,
     overflow: "hidden",
+    paddingHorizontal: Platform.OS === "ios" ? 0 : 20,
     height: 47,
+    width: 47,
     justifyContent: "center",
     alignItems: "center",
     zIndex: 1,
-    flex: 1,
   },
   title: {
     fontWeight: "bold",
