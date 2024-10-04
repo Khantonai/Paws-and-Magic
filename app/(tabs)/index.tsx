@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Image, StyleSheet, Alert, Text } from 'react-native';
+import { View, TextInput, Button, Image, StyleSheet, Text } from 'react-native';
 import { router } from 'expo-router';
 import { fetchData } from '../../services/api'; // Importer la fonction fetchData
 
@@ -17,7 +17,7 @@ const HomeScreen = () => {
     try {
       setLoading(true);
       // Faire un appel API pour vérifier ou enregistrer le pseudo
-      const response = await fetchData('addplayer', 'POST', {"pseudo": [`${pseudo}`]}); 
+      const response = await fetchData('addplayer', 'POST', { pseudo: pseudo.trim() }); 
 
       // Afficher une alerte si l'API renvoie une erreur
       if (response.error) {
@@ -25,7 +25,11 @@ const HomeScreen = () => {
       } else {
         // Si l'API réussit, stocker le résultat et naviguer vers la page room
         setResult(response); // Stocker le résultat ici
-        //router.push('/room'); // Commenté pour l'instant
+        if (response.message === 'Joueur ajouté avec succès.') {
+          router.push('/room'); // Naviguer vers la page room si succès
+        } else {
+          alert('Ce joueur existe déjà.');
+        }
       }
     } catch (error) {
       alert('Erreur lors de l\'appel API : ' + error);
