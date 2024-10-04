@@ -37,7 +37,6 @@ function Board() {
     ];
 
     const [loading, setLoading] = useState(false);
-    const [result, setResult] = useState(null); // État pour stocker le résultat
 
     const handleAttack = async (attackerId: number, targetId: number) => {
         try {
