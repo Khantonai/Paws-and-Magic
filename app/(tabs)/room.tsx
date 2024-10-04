@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, FlatList, Button, StyleSheet, Alert } from 'react-native';
 import RoomItem from '../../components/roomItem';
 import CreateRoomModal from '../../components/popuproom';
+import { router } from 'expo-router';
 
 interface Room {
   id: string;
@@ -52,6 +53,7 @@ const RoomSelectionPage: React.FC = () => {
 
   const handleJoinRoom = (roomId: string) => {
     alert(`Rejoindre la salle`+ `ID de la salle : ${roomId}`);
+    router.push('/board');
   };
 
   return (
