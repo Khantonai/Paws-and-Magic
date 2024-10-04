@@ -29,6 +29,7 @@ const HomeScreen = () => {
           router.push('/room'); // Naviguer vers la page room si succès
         } else {
           alert('Ce joueur existe déjà.');
+          router.push('/room');
         }
       }
     } catch (error) {
