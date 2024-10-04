@@ -1,15 +1,108 @@
 import React, { useRef, useEffect } from 'react';
-import { View, StyleSheet, Text, useWindowDimensions, ImageBackground, Image, SafeAreaView, Pressable, Platform} from "react-native";
+import { View, StyleSheet, Text, useWindowDimensions, ImageBackground, Image, SafeAreaView, Pressable, Platform } from "react-native";
 import ManaBar from "@/components/molecules/ManaBar";
 import Card from "@/components/molecules/Card";
 import * as Progress from "react-native-progress";
 import { useState } from "react";
 import { Button } from '@rneui/themed';
+import { fetchData } from '../../../services/api'; // Importer la fonction fetchData
 
 
 
 function Board() {
-    
+
+    let data = [
+        {
+            id: 1,
+            pseudo: "Joueur 1",
+            hp: 30,
+            mana: [2, 4],
+            pioche: [4, 8, 1, 3, 5, 7, 6, 2, 9],
+            hand: [4, 8, 1, 3, 5],
+            board: [
+                [3, 4, 2, 1],
+                [5, 3, 2, 0],
+
+            ],
+        },
+        {
+            id: 2,
+            pseudo: "Joueur 2",
+            hp: 20,
+            mana: [3, 4],
+            pioche: [4, 8, 1, 3, 5, 7, 6, 2, 9],
+            hand: [4, 8, 1, 3, 5],
+            board: [[14, 13, 12], [16, 10, 9]],
+        },
+    ];
+
+    const [loading, setLoading] = useState(false);
+    const [result, setResult] = useState(null); // État pour stocker le résultat
+
+    const handleAttack = async (attackerId: number, targetId: number) => {
+        try {
+          setLoading(true);
+          const response = await fetchData('attack', 'POST', {
+            attackerId,
+            targetId,
+          });
+       
+          if (response.error) {
+            alert('Erreur API : ' + response.error);
+          } else {
+            data = response; // Stocker le résultat ici
+            alert('Attaque réussie !');
+            // Mettre à jour l'état ou exécuter une autre logique si nécessaire
+          }
+        } catch (error) {
+          alert('Erreur lors de l\'appel API : ' + error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      const handlePlayCard = async (cardId: number) => {
+        try {
+          setLoading(true);
+          const response = await fetchData('playcard', 'POST', {
+            cardId,
+          });
+       
+          if (response.error) {
+            alert('Erreur API : ' + response.error);
+          } else {
+            alert('Carte jouée avec succès !');
+            data = response; // Stocker le résultat ici
+            // Mettre à jour l'état ou exécuter une autre logique si nécessaire
+          }
+        } catch (error) {
+          alert('Erreur lors de l\'appel API : ' + error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      const handleEndTurn = async (playerId: number) => {
+        try {
+          setLoading(true);
+          const response = await fetchData('endturn', 'POST', {
+            playerId,
+          });
+       
+          if (response.error) {
+            alert('Erreur API : ' + response.error);
+          } else {
+            alert('Tour terminé !');
+            data = response; // Stocker le résultat ici
+            // Mettre à jour l'état ou exécuter une autre logique si nécessaire
+          }
+        } catch (error) {
+          alert('Erreur lors de l\'appel API : ' + error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
 
     const animals = [
         {
@@ -142,34 +235,13 @@ function Board() {
         },
     ];
 
-    const data = [
-        {
-            pseudo: "Joueur 1",
-            hp: 30,
-            mana: [2, 4],
-            pioche: [4, 8, 1, 3, 5, 7, 6, 2, 9],
-            hand: [4, 8, 1, 3, 5],
-            board: [
-                [3, 4, 2, 1],
-                [5, 3, 2, 0],
-
-            ],
-        },
-        {
-            pseudo: "Joueur 2",
-            hp: 20,
-            mana: [3, 4],
-            pioche: [4, 8, 1, 3, 5, 7, 6, 2, 9],
-            hand: [4, 8, 1, 3, 5],
-            board: [[14, 13, 12], [16, 10, 9]],
-        },
-    ];
+    
 
     const [selectedCard, setSelectedCard] = useState(["", -1]);
     const dimensions = useWindowDimensions();
 
     return (
-        <ImageBackground source={require('@/assets/images/background.png')}>
+        <ImageBackground source={require('@/assets/images/background.png')} resizeMode='cover' style={{width: "100%"}}>
             <SafeAreaView style={styles(dimensions).board}>
                 <View style={styles(dimensions).playerContainer}>
                     <View
@@ -222,6 +294,7 @@ function Board() {
                                         hp={animals[card[2] - 1].hp}
                                         onBoard
                                         onPress={() => {
+                                            handleAttack(Number(selectedCard[1]), index);
                                             if (selectedCard[0] === "board") {
                                                 alert("Envoie de données : carte du terrain à l'index " + selectedCard[1] + " attaque la carte adverse à l'index " + index);
                                                 setSelectedCard(["", -1]);
@@ -232,24 +305,24 @@ function Board() {
                             })
                         }
                         {
-                            data[1].board.length === 0 ? 
-                            <View style={[styles(dimensions).placeholder, {opacity: 0}]}></View>
-                            : null
+                            data[1].board.length === 0 ?
+                                <View style={[styles(dimensions).placeholder, { opacity: 0 }]}></View>
+                                : null
                         }
                     </View>
                 </View>
                 <View style={{ height: Platform.OS === "web" ? 50 : 100, width: "100%" }}>
                     <Image source={require("@/assets/images/fence.png")} style={{ height: "100%", width: "100%" }} resizeMode="repeat" />
                     {/* <View style={styles(dimensions).deckContainer}>
-                        <View style={styles(dimensions).deck}>
+                        <View style={styles(dime nsions).deck}>
                             <Image source={require("@/assets/images/cardBackground.jpg")} style={{width: "100%", height: "100%"}} />
                         </View>
                         <View style={styles(dimensions).deck}>
                             <Image source={require("@/assets/images/cardBackground.jpg")} style={{width: "100%", height: "100%"}} />
                         </View>
                     </View> */}
-                    <View style={{position: "absolute", right:10, top: "50%", transform: [{translateY: -20}]}}>
-                        <Button title="Terminer le tour" style={{ backgroundColor: "#29ABE2"}} onPress={() => alert("Fin de tour")}></Button>
+                    <View style={{ position: "absolute", right: 10, top: "50%", transform: [{ translateY: -20 }] }}>
+                        <Button title="Terminer le tour" style={{ backgroundColor: "#29ABE2" }} onPress={() => handleEndTurn(0)}></Button>
                     </View>
                 </View>
                 <View style={styles(dimensions).playerContainer}>
@@ -309,11 +382,13 @@ function Board() {
                                         hp={animals[data[0].hand[Number(selectedCard[1])] - 1].hp}
                                         onBoard
                                         style={{ opacity: 0.4 }}
-                                        onPress={() =>
+                                        onPress={() => {
+                                            handlePlayCard(Number(selectedCard[1]));
                                             alert(
                                                 "Envoie de données : carte de la main à l'index " +
                                                 selectedCard[1]
                                             )
+                                        }
                                         }
                                     />
                                     : <View style={styles(dimensions).placeholder} />
