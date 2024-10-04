@@ -1,4 +1,5 @@
-import { View, StyleSheet, Image, Text } from "react-native";
+import { View, StyleSheet, Image, Text, useWindowDimensions } from "react-native";
+
 
 
 interface CardProps {
@@ -7,32 +8,43 @@ interface CardProps {
     mana: number;
     strength: number;
     hp: number;
+    onBoard?: boolean;
+    onPress?: () => void;
+    style?: any;
 }
 
-function Card( {image, title, mana, strength, hp}: CardProps ) {
+function Card( {image, title, mana, strength, hp, onBoard,onPress, style}: CardProps ) {
+    const dimensions = useWindowDimensions();
+
     return (
         <View
-        style={styles.cardContainer}>
-            <View style={styles.mana}>
-                <Text style={styles.dataText}>{mana}</Text>
+        style={[styles(dimensions).cardContainer, {width: dimensions?.width ? dimensions.width / (onBoard ? 3 : 6) : 100, 
+            maxWidth: onBoard ? 125 : 100,}, style]}
+        onTouchEnd={onPress}
+            >
+            <View style={onBoard ? {height:20} : styles(dimensions).mana}>
+                {
+                    !onBoard && <Text style={styles(dimensions).dataText}>{mana}</Text>
+                }
             </View>
-            <Image source={image} style={styles.image} />
-            <View style={styles.dataContainer}>
-                 <View style={styles.strength}>
-                    <Text style={styles.dataText}>{strength}</Text>
+            <Image source={image} style={styles(dimensions).image} />
+            <View style={styles(dimensions).dataContainer}>
+                 <View style={styles(dimensions).strength}>
+                    <Text style={styles(dimensions).dataText}>{strength}</Text>
                  </View>
-                    <Text style={styles.dataText}>{title}</Text>
-                 <View style={styles.hp}>
-                    <Text style={styles.dataText}>{hp}</Text>
+                    <Text style={styles(dimensions).title}>{title}</Text>
+                 <View style={styles(dimensions).hp}>
+                    <Text style={styles(dimensions).dataText}>{hp}</Text>
                  </View>
             </View>
         </View>
     )
 }
 
-const styles = StyleSheet.create({
+const styles = (
+    dimensions?: { width: number; height: number }
+  ) =>  StyleSheet.create({
     cardContainer: {
-        width: 100,
         aspectRatio: 0.77,
         borderRadius: 8,
         borderWidth: 1,
@@ -73,12 +85,12 @@ const styles = StyleSheet.create({
     },
     title: {
         color: 'black',
-        fontSize: 12,
+        fontSize: dimensions?.width && dimensions?.width < 600 ? dimensions.width / 50 : 12,
         textAlign: 'center',
     },
     dataText: {
         color: 'white',
-        fontSize: 12,
+        fontSize: dimensions?.width && dimensions?.width < 600 ? dimensions.width / 50 : 12,
     },
   });
 

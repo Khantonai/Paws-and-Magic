@@ -12,6 +12,7 @@ export default function TabLayout() {
     <Stack>
       <Stack.Screen name="index" options={{ title: 'Bienvenue' }} />
       <Stack.Screen name="room" options={{ title: 'Parties' }} />
+      <Stack.Screen name="[board]" options={{ title: 'Jouer', headerShown: false }}  />
     </Stack>
   );
 }
